@@ -11,7 +11,7 @@ import axios from "axios";
 function SignUp() {
     const navigate=useNavigate();
   const [showPassword, setShowPassword] = useState(false);
-  const {serverUrl} = useContext(userDataContext)
+  const {serverUrl,userData,setUserData} = useContext(userDataContext)
   const [name,setName]=useState("");
   const[email,setEmail]=useState("")
   const [password,setPassword]=useState("")
@@ -27,12 +27,14 @@ function SignUp() {
         let result=await axios.post(`${serverUrl}/api/auth/signup`,{
             name,email,password
         },{withCredentials:true})
-        console.log(result);
+        setUserData(result.data)
     } catch (error) {
         console.log(error)
+        setUserData(null)
         setErr(error.response.data.message)
     }finally{
       setLoading(false)
+      navigate("/customize")
     }
   }
   return (
@@ -73,7 +75,7 @@ function SignUp() {
             />
           )}
         </div>
-        {err.length>0 && <p className="text-red-500">*{err}</p>}
+        {err.length>0 && <p className="text-red-500 text-[17px]">*{err}</p>}
         <button className="min-w-[150px] h-[60px] mt-[30px] text-black font-semibold text-[19px] bg-white rounded-full" disabled={loading}>{loading?"Loading...":"Sign Up"}</button>
         <p onClick={()=> navigate('/signin')} className="text-white text-[18px] cursor-pointer">Aready have an account ? <span className="text-blue-400"> Sign In</span></p>
       </form>

@@ -1,11 +1,12 @@
 import express from "express"
-import { getCurrentUser } from "../controllers/user.controllers.js"
-
-const userRouter=express.Router()
-
-userRouter.post("/current",getCurrentUser)
+import { login, logOut, signUp } from "../controllers/auth.controller.js"
 
 
+const authRouter=express.Router()
+
+authRouter.post('/signup',signUp)
+authRouter.post('/signin',login)
+authRouter.post('/logout',logOut)
 
 
-export default userRouter
+export default authRouter
