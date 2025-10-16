@@ -12,6 +12,8 @@ import { RiImageAddLine } from "react-icons/ri";
 import { useRef } from "react";
 import { useContext } from "react";
 import { userDataContext } from "../context/userContext";
+import { useNavigate } from "react-router-dom";
+import { MdKeyboardBackspace } from "react-icons/md";
 
 function Customize() {
   const {
@@ -27,13 +29,16 @@ function Customize() {
   } = useContext(userDataContext);
   const inputImage = useRef();
 
+  const navigate=useNavigate();
+
   const handleImage = (e) => {
     const file = e.target.files[0];
     setBackendImage(file);
     setFrontendImage(URL.createObjectURL(file));
   };
   return (
-    <div className="w-full h-[100vh] bg-gradient-to-t from-[black] to-[#030353] flex justify-center items-center flex-col p-[20px]">
+    <div className="w-full h-[100vh] bg-gradient-to-t from-[black] to-[#030353] flex justify-center items-center flex-col p-[20px] relative">
+      <MdKeyboardBackspace className='absolute top-[30px] left-[30px] text-white w-[25px] h-[25px] cursor-pointer' onClick={()=>navigate('/')}/>
       <h1 className="text-white mb-[40px] text-[30px] text-center">
         Select your <span className="text-blue-200">Assistant Images</span>
       </h1>
@@ -61,13 +66,13 @@ function Customize() {
         </div>
         <input
           type="file"
-          accept="images/*"
+          accept="image/*" 
           ref={inputImage}
           hidden
           onChange={handleImage}
         />
       </div>
-      {selectedImage && <button className="min-w-[150px] h-[60px] mt-[30px] text-black font-semibold text-[19px] bg-white rounded-full">
+      {selectedImage && <button className="min-w-[150px] h-[60px] mt-[30px] text-black font-semibold text-[19px] bg-white rounded-full cursor-pointer" onClick={()=>navigate("/customize2")}>
         Next
       </button>}
     </div>
